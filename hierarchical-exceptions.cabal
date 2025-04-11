@@ -1,8 +1,7 @@
 cabal-version:       >=1.10
 name:                hierarchical-exceptions
-version:             1.0.1
-synopsis:            Template Haskell functions to easily create exception
- hierarchies
+version:             1.0.2
+synopsis:            Template Haskell functions to easily create exception hierarchies
 description:
  Haskell supports exception hierarchies, but they require quite a bit of
  boilerplate to declare.  This package leverages Template Haskell to automate
@@ -10,15 +9,20 @@ description:
  .
  This package requires GHC 7.6, as a bug in GHC 7.4 prevents expansion of
  Template Haskell splices using 'deriving Typeable'.
+homepage:            https://github.com/GaloisInc/hierarchical-exceptions
 license:             Apache-2.0
 license-file:        LICENSE
 author:              Benjamin Barenblat
 maintainer:          bbarenblat@galois.com
-copyright:           © 2014 Galois, Inc.
+copyright:           © 2025 Galois, Inc.
 stability:           provisional
 category:            Language
 build-type:          Simple
 tested-with:         GHC==7.6.3
+
+source-repository head
+  type:     git
+  location: https://github.com/GaloisInc/hierarchical-exceptions
 
 library
   hs-source-dirs:      src

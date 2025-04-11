@@ -137,7 +137,7 @@ exceptionHierarchyFunctions super =
 in the introduction, such an exception cannot be thrown; it can only be
 extended. -}
 mkAbstractException :: Name
-                       -- ^ the name of the super-exception’s data constructor
+                       -- ^ the name of the super-exception's data constructor
                        -> String -- ^ the name of the exception to create
                        -> DecsQ
 mkAbstractException super name =
@@ -155,12 +155,12 @@ example,
 >             deriving Typeable -}
 abstractDataDeclaration :: Name -> DecsQ
 abstractDataDeclaration name =
-  one $ dataD (cxt []) name []
+  one $ dataD (cxt []) name [] Nothing
               [let e = mkName "e" in
-               forallC [PlainTV e]
-                       (cxt [classP ''Exception [varT e]])
-                       (normalC name [return (NotStrict, VarT e)])]
-              [''Typeable]
+               forallC [PlainTV e SpecifiedSpec]
+                       (cxt [appT (conT ''Exception) (varT e)])
+                       (normalC name [bangType (bang noSourceUnpackedness noSourceStrictness) (varT e)])]
+              [derivClause Nothing [conT ''Typeable]]
 
 {-| Creates an instance declaration for an abstract exception type.  For
 example,
@@ -182,7 +182,7 @@ abstractShowDeclaration name =
 in the introduction, such an exception cannot be extended; it can only be
 thrown. -}
 mkException :: Name
-               -- ^ the name of the super-exception’s data constructor
+               -- ^ the name of the super-exception's data constructor
                -> String        -- ^ the name of the exception to create
                -> DecsQ
 mkException super name =
@@ -199,9 +199,9 @@ example,
 >             deriving (Show, Typeable) -}
 dataDeclaration :: Name -> DecsQ
 dataDeclaration name =
-  one $ dataD (cxt []) name []
+  one $ dataD (cxt []) name [] Nothing
               [normalC name []]
-              [''Show, ''Typeable]
+              [derivClause Nothing [conT ''Show, conT ''Typeable]]
 
 
 ----------------------------------- Utility -----------------------------------
